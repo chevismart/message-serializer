@@ -11,6 +11,6 @@ public class MessageFactory {
     private Map<String, Message> messageMap;
 
     public MessageFactory() {
-        System.err.println(MessageFactory.class.getClassLoader().getResource(""));
+//        System.err.println(MessageFactory.class.getClassLoader().getResource(""));
     }
 }
