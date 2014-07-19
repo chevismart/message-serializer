@@ -1,0 +1,17 @@
+<messages>
+    <message>
+        <name>LogonRequest</name>
+        <id>0x10</id>
+        <description>DESC</description>
+        <direction>UP</direction>
+        <fields>
+            <field>
+                <name>centerId</name>
+                <type>bytes</type>
+                <mandatory>true</mandatory>
+                <checkNull>true</checkNull>
+                <length>4</length>
+            </field>
+        </fields>
+    </message>
+</messages>

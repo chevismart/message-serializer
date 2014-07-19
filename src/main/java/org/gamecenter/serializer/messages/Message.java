@@ -9,6 +9,7 @@ public class Message<T> {
 
     private String name;
     private byte id;
+    private String direction;
     private String description;
     private List<Field> fields;
 
@@ -36,6 +37,15 @@ public class Message<T> {
         return result;
     }
 
+    public String getDirection() {
+
+        return direction;
+    }
+
+    public void setDirection(String direction) {
+        this.direction = direction;
+    }
+
     @Override
     public String toString() {
         return "Message{" +
@@ -50,29 +60,29 @@ public class Message<T> {
         return name;
     }
 
-    public byte getId() {
-        return id;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public List<Field> getFields() {
-        return fields;
-    }
-
     public void setName(String name) {
 
         this.name = name;
+    }
+
+    public byte getId() {
+        return id;
     }
 
     public void setId(byte id) {
         this.id = id;
     }
 
+    public String getDescription() {
+        return description;
+    }
+
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public List<Field> getFields() {
+        return fields;
     }
 
     public void setFields(List<Field> fields) {
