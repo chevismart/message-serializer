@@ -8,34 +8,10 @@ import java.util.List;
 public class Message<T> {
 
     private String name;
-    private byte id;
+    private int id;
     private String direction;
     private String description;
     private List<Field> fields;
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-
-        Message message = (Message) o;
-
-        if (id != message.id) return false;
-        if (description != null ? !description.equals(message.description) : message.description != null) return false;
-        if (fields != null ? !fields.equals(message.fields) : message.fields != null) return false;
-        if (name != null ? !name.equals(message.name) : message.name != null) return false;
-
-        return true;
-    }
-
-    @Override
-    public int hashCode() {
-        int result = name != null ? name.hashCode() : 0;
-        result = 31 * result + (int) id;
-        result = 31 * result + (description != null ? description.hashCode() : 0);
-        result = 31 * result + (fields != null ? fields.hashCode() : 0);
-        return result;
-    }
 
     public String getDirection() {
 
@@ -44,16 +20,6 @@ public class Message<T> {
 
     public void setDirection(String direction) {
         this.direction = direction;
-    }
-
-    @Override
-    public String toString() {
-        return "Message{" +
-                "name='" + name + '\'' +
-                ", id=" + id +
-                ", description='" + description + '\'' +
-                ", fields=" + fields +
-                '}';
     }
 
     public String getName() {
@@ -65,11 +31,48 @@ public class Message<T> {
         this.name = name;
     }
 
-    public byte getId() {
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Message message = (Message) o;
+
+        if (id != message.id) return false;
+        if (description != null ? !description.equals(message.description) : message.description != null) return false;
+        if (direction != null ? !direction.equals(message.direction) : message.direction != null) return false;
+        if (fields != null ? !fields.equals(message.fields) : message.fields != null) return false;
+        if (name != null ? !name.equals(message.name) : message.name != null) return false;
+
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = name != null ? name.hashCode() : 0;
+        result = 31 * result + id;
+        result = 31 * result + (direction != null ? direction.hashCode() : 0);
+        result = 31 * result + (description != null ? description.hashCode() : 0);
+        result = 31 * result + (fields != null ? fields.hashCode() : 0);
+        return result;
+    }
+
+    @Override
+    public String toString() {
+        return "Message{" +
+                "name='" + name + '\'' +
+                ", id=" + id +
+                ", direction='" + direction + '\'' +
+                ", description='" + description + '\'' +
+                ", fields=" + fields +
+                '}';
+    }
+
+    public int getId() {
         return id;
     }
 
-    public void setId(byte id) {
+    public void setId(int id) {
         this.id = id;
     }
 
