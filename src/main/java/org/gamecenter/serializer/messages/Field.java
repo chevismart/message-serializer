@@ -12,6 +12,17 @@ public class Field<T> {
     private boolean mandatory;
     private boolean checkNull;
 
+    public Field() {
+    }
+
+    public Field(Field<T> field) {
+        this.name = field.getName();
+        this.length = field.getLength();
+        this.type = field.getType();
+        this.mandatory = field.isMandatory();
+        this.checkNull = field.isCheckNull();
+    }
+
     public String getName() {
 
         return name;

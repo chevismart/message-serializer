@@ -7,6 +7,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.File;
+import java.net.URLDecoder;
 import java.util.ArrayList;
 
 import static org.junit.Assert.assertTrue;
@@ -41,7 +42,7 @@ public class XMLMessageConverterTest {
     public void testConvertXML2Object() throws Exception {
 
         String filePath = XMLMessageConverterTest.class.getClassLoader().getResource("message_text.xml").getPath();
-
+        filePath = URLDecoder.decode(filePath,"UTF-8");
         logger.info(filePath);
 
         File xmlFile = new File(filePath);

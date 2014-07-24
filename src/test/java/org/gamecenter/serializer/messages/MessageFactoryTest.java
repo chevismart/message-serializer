@@ -8,6 +8,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.File;
+import java.net.URLDecoder;
 import java.util.ArrayList;
 import java.util.Map;
 
@@ -19,7 +20,7 @@ public class MessageFactoryTest {
 
     private static String SYSTEM_MESSAGES_XML = "message_text.xml";
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
-    MessageFactory factory;
+    MessageLoader factory;
     File xmlFile;
     XMLMessageConverter converter;
     Map<Integer, Message> msgMap;
@@ -28,12 +29,13 @@ public class MessageFactoryTest {
     public void setUp() throws Exception {
         logger.info("This is setup method");
         String xmlPath = this.getClass().getClassLoader().getResource(SYSTEM_MESSAGES_XML).getPath();
+        xmlPath = URLDecoder.decode(xmlPath,"UTF-8");
         logger.info(xmlPath);
 
         xmlFile = new File(xmlPath);
 
         msgMap = mock(Map.class);
-        factory = MessageFactory.INSTANCE();
+        factory = MessageLoader.INSTANCE();
         assertNotNull(xmlPath);
         converter = new XMLMessageConverter();
     }
@@ -47,6 +49,7 @@ public class MessageFactoryTest {
     @Test
     public void canConvertXML2MessagesSuccessfully() throws Exception {
         ArrayList<Message> messageList = (ArrayList<Message>) converter.convertXML2Messages(xmlFile);
+//        Whitebox.setInternalState(Map.class,"messageMap",msgMap);
         logger.info(messageList.toString());
     }
 

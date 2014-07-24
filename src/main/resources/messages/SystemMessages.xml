@@ -1,13 +1,13 @@
 <messages>
     <message>
         <name>LogonRequest</name>
-        <id>0x1000</id>
+        <id>0x0001</id>
         <description>DESC</description>
         <direction>UP</direction>
         <fields>
             <field>
                 <name>centerId</name>
-                <type>bytes</type>
+                <type>BYTES</type>
                 <mandatory>true</mandatory>
                 <checkNull>true</checkNull>
                 <length>4</length>
