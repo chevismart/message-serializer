@@ -7,6 +7,13 @@ import java.nio.charset.Charset;
  */
 public class ByteUtil {
 
+    public static byte[] getMsgId(int msgId) {
+        byte[] bytes = new byte[2];
+        bytes[1] = (byte) (msgId & 0xff);
+        bytes[0] = (byte) ((msgId & 0xff00) >> 8);
+        return bytes;
+    }
+
     public static byte[] getBytes(short data) {
         byte[] bytes = new byte[2];
         bytes[0] = (byte) (data & 0xff);
@@ -71,7 +78,12 @@ public class ByteUtil {
         return (char) ((0xff & bytes[0]) | (0xff00 & (bytes[1] << 8)));
     }
 
-    public static int getInt(byte[] bytes) {
+    public static int getMsgId(byte[] bytes) {
+
+        return (0xff00 & (bytes[0] << 8) | (0xff & bytes[1]));
+    }
+
+    public static int getInteger(byte[] bytes) {
         return (0xff & bytes[0]) | (0xff00 & (bytes[1] << 8)) | (0xff0000 & (bytes[2] << 16)) | (0xff000000 & (bytes[3] << 24));
     }
 
@@ -81,7 +93,7 @@ public class ByteUtil {
     }
 
     public static float getFloat(byte[] bytes) {
-        return Float.intBitsToFloat(getInt(bytes));
+        return Float.intBitsToFloat(getInteger(bytes));
     }
 
     public static double getDouble(byte[] bytes) {
@@ -100,7 +112,7 @@ public class ByteUtil {
 
     public static byte[] subBytes(byte[] src, int begin, int count) {
         byte[] bs = new byte[count];
-        for (int i=begin; i<begin+count; i++) bs[i-begin] = src[i];
+        for (int i = begin; i < begin + count; i++) bs[i - begin] = src[i];
         return bs;
     }
 

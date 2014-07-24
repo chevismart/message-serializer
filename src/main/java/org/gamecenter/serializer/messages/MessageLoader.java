@@ -16,18 +16,11 @@ import java.util.Map;
  */
 public class MessageLoader {
 
-    private final Logger logger = LoggerFactory.getLogger(this.getClass());
-    private Map<Integer, Message> messageMap;
-    XMLMessageConverter converter;
     private static String SYSTEM_MESSAGES_XML = "messages/SystemMessages.xml";
     private static MessageLoader factory;
-
-    public static MessageLoader INSTANCE() {
-        if (null == factory) {
-            factory = new MessageLoader();
-        }
-        return factory;
-    }
+    private final Logger logger = LoggerFactory.getLogger(this.getClass());
+    XMLMessageConverter converter;
+    private Map<Integer, Message> messageMap;
 
     public MessageLoader() {
         converter = new XMLMessageConverter();
@@ -48,6 +41,13 @@ public class MessageLoader {
             messageMap.put(msg.getId(), msg);
         }
 
+    }
+
+    public static MessageLoader INSTANCE() {
+        if (null == factory) {
+            factory = new MessageLoader();
+        }
+        return factory;
     }
 
     public Message getMessage(int mockMsgId) {

@@ -42,7 +42,7 @@ public class XMLMessageConverterTest {
     public void testConvertXML2Object() throws Exception {
 
         String filePath = XMLMessageConverterTest.class.getClassLoader().getResource("message_text.xml").getPath();
-        filePath = URLDecoder.decode(filePath,"UTF-8");
+        filePath = URLDecoder.decode(filePath, "UTF-8");
         logger.info(filePath);
 
         File xmlFile = new File(filePath);
