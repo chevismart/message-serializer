@@ -16,7 +16,7 @@ import java.util.List;
 /**
  * Created by Chevis on 14-7-16.
  */
-public class Decoder<T> extends Coder {
+public class Decoder extends Coder {
 
     MessageLoader factory = MessageLoader.INSTANCE();
     private Logger logger = LoggerFactory.getLogger(Decoder.class);
@@ -29,7 +29,7 @@ public class Decoder<T> extends Coder {
             throw new InvalidParameterException("Message is too short to be decoded. Message size(" + bytes.length + ") is smaller than the minimum size(" + MINIMUM_MSG_SIZE + ").");
         }
 
-        int msgId = ByteUtil.getMsgId(ByteUtil.subBytes(bytes, pointer, MINIMUM_MSG_SIZE));
+        int msgId = ByteUtil.getShort(ByteUtil.subBytes(bytes, pointer, MINIMUM_MSG_SIZE));
         logger.info("Message ID = {}", msgId);
         pointer += MSG_TYPE_LENGTH;
 
