@@ -3,6 +3,5 @@ package org.gamecenter.serializer;
 /**
  * Created by Boss on 2014/7/26.
  */
-public interface HeaderFilter {
-    boolean verify();
+public class DataDecoder {
 }

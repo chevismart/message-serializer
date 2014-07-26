@@ -1,5 +1,6 @@
 package org.gamecenter.serializer;
 
+import ch.qos.logback.core.encoder.ByteArrayUtil;
 import org.gamecenter.serializer.constants.FieldType;
 import org.gamecenter.serializer.messages.Field;
 import org.gamecenter.serializer.messages.Message;
@@ -74,7 +75,8 @@ public class Decoder extends Coder {
                 pointer += field.getLength();
             }
         } else {
-            logger.error("Message body length is not match!");
+            logger.error("The data header array is {}", ByteArrayUtil.toHexString(ByteUtil.subBytes(bytes, pointer, MINIMUM_MSG_SIZE)));
+            throw new IndexOutOfBoundsException("Message body length is not match!");
         }
 
         return fields;

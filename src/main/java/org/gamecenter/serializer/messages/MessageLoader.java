@@ -38,6 +38,17 @@ public class MessageLoader {
         }
         ArrayList<Message> messageList = (ArrayList<Message>) converter.convertXML2Messages(xmlFile);
         for (Message msg : messageList) {
+            int minConunter = 0;
+            int maxConunter = 0;
+            for (Field field : msg.getFields()) {
+                int fieldLength = field.getLength();
+                if (field.isMandatory()) {
+                    minConunter += fieldLength;
+                }
+                maxConunter += fieldLength;
+            }
+            msg.setMinLength(minConunter);
+            msg.setMaxLength(maxConunter);
             messageMap.put(msg.getId(), msg);
         }
 
