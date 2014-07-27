@@ -78,9 +78,8 @@ public class ByteUtil {
         return (char) ((0xff & bytes[0]) | (0xff00 & (bytes[1] << 8)));
     }
 
-    public static int getMsgId(byte[] bytes) {
-
-        return (0xff00 & (bytes[0] << 8) | (0xff & bytes[1]));
+    public static byte[] getMsgId(byte[] bytes) {
+        return new byte[]{bytes[1], bytes[0]};
     }
 
     public static int getInteger(byte[] bytes) {

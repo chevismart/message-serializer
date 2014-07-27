@@ -16,7 +16,7 @@ import java.util.Map;
  */
 public class MessageLoader {
 
-    private static String SYSTEM_MESSAGES_XML = "messages/SystemMessages.xml";
+    private static String SYSTEM_MESSAGES_XML = "messages/systemMessages.xml";
     private static MessageLoader factory;
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
     XMLMessageConverter converter;

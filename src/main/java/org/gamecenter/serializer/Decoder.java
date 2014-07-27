@@ -4,6 +4,7 @@ import ch.qos.logback.core.encoder.ByteArrayUtil;
 import org.gamecenter.serializer.constants.FieldType;
 import org.gamecenter.serializer.messages.Field;
 import org.gamecenter.serializer.messages.Message;
+import org.gamecenter.serializer.messages.MessageHeader;
 import org.gamecenter.serializer.messages.MessageLoader;
 import org.gamecenter.serializer.utils.ByteUtil;
 import org.slf4j.Logger;
@@ -19,32 +20,29 @@ import java.util.List;
  */
 public class Decoder extends Coder {
 
-    MessageLoader factory = MessageLoader.INSTANCE();
+    MessageLoader loader = MessageLoader.INSTANCE();
     private Logger logger = LoggerFactory.getLogger(Decoder.class);
 
-    public List<Field> decode(byte[] bytes) throws IOException {
+    public List<Field> decode(byte[] msgBytes) throws IOException {
         List<Field> fields = new ArrayList<Field>();
         int pointer = 0;
 
-        if (bytes.length < MINIMUM_MSG_SIZE) {
-            throw new InvalidParameterException("Message is too short to be decoded. Message size(" + bytes.length + ") is smaller than the minimum size(" + MINIMUM_MSG_SIZE + ").");
-        }
+        MessageHeader header = HeaderFilter.getMessageHeader(msgBytes, loader);
 
-        int msgId = ByteUtil.getShort(ByteUtil.subBytes(bytes, pointer, MINIMUM_MSG_SIZE));
-        logger.info("Message ID = {}", msgId);
-        pointer += MSG_TYPE_LENGTH;
-
-        int msgBodyLength = ByteUtil.getShort(ByteUtil.subBytes(bytes, pointer, MSG_SIZE_LENGTH));
-        logger.info("Message body length = {}", msgBodyLength);
-        pointer += MSG_SIZE_LENGTH;
-
-        if (isLengthMatch(msgBodyLength, bytes.length - MINIMUM_MSG_SIZE)) {
-            logger.info("Message body length is Match!");
+        if (isBodyLengthMatch(header, msgBytes)) {
+            byte[] bytes = ByteUtil.subBytes(msgBytes, HeaderFilter.TOTAL_HEADER_LENGTH, header.getMsgBodyLength());
 
 
-            Message message = factory.getMessage(msgId);
-            logger.info("Message(id={}) is retrieved: {}", msgId, message);
+            int msgId = ByteUtil.getShort(header.getMessageId());
 
+            Message message = loader.getMessage(msgId);
+
+            String displayMsgId = ByteArrayUtil.toHexString(ByteUtil.getMsgId(header.getMessageId()));
+            logger.info("Message(id={}) = {}", displayMsgId, message);
+
+            if (null == message) {
+                throw new InvalidParameterException("The message(id={" + displayMsgId + "}) is not found");
+            }
 
             List<Field> fieldList = message.getFields();
             for (Field field : fieldList) {
@@ -75,15 +73,21 @@ public class Decoder extends Coder {
                 pointer += field.getLength();
             }
         } else {
-            logger.error("The data header array is {}", ByteArrayUtil.toHexString(ByteUtil.subBytes(bytes, pointer, MINIMUM_MSG_SIZE)));
-            throw new IndexOutOfBoundsException("Message body length is not match!");
+
         }
 
         return fields;
     }
 
-    private boolean isLengthMatch(int expectedMsgBodyLength, int exactMsgBodyLength) {
-        return expectedMsgBodyLength == exactMsgBodyLength;
+    private boolean isBodyLengthMatch(MessageHeader header, byte[] bytes) {
+
+        boolean result = HeaderFilter.TOTAL_HEADER_LENGTH + header.getMsgBodyLength() < bytes.length;
+
+        if (!result) {
+            throw new ArrayIndexOutOfBoundsException("Message body length is mismatch!");
+        }
+
+        return result;
     }
 
     private boolean isFieldType(FieldType fieldType, Field field) {
