@@ -1,6 +1,6 @@
 <messages>
     <message>
-        <name>LogonRequest</name>
+        <name>LoginRequest</name>
         <id>0x1001</id>
         <description>DESC</description>
         <direction>UP</direction>
@@ -13,5 +13,12 @@
                 <length>4</length>
             </field>
         </fields>
+    </message>
+    <message>
+        <name>LoginResponse</name>
+        <id>0x1101</id>
+        <description>DESC</description>
+        <direction>DOWN</direction>
+        <fields/>
     </message>
 </messages>
