@@ -35,7 +35,7 @@ public class Decoder extends Coder {
 
             int msgId = ByteUtil.getShort(header.getMessageId());
 
-            Message message = loader.getMessage(msgId);
+            Message message = loader.getMessageByMsgId(msgId);
 
             String displayMsgId = ByteArrayUtil.toHexString(ByteUtil.getMsgId(header.getMessageId()));
             logger.info("Message(id={}) = {}", displayMsgId, message);
@@ -69,11 +69,10 @@ public class Decoder extends Coder {
                     fieldVal = new Field<Long>(field);
                     fieldVal.setValue(ByteUtil.getInteger(fieldBytes));
                 }
-                fields.add(fieldVal);
+                if (checkMandatory(fieldVal) && checkNull(field))
+                    fields.add(fieldVal);
                 pointer += field.getLength();
             }
-        } else {
-
         }
 
         return fields;
@@ -92,6 +91,21 @@ public class Decoder extends Coder {
 
     private boolean isFieldType(FieldType fieldType, Field field) {
         return fieldType.toString().toLowerCase().equals(field.getType().toLowerCase());
+    }
+
+    private boolean checkMandatory(Field field) {
+        boolean result = false;
+        if (field.isMandatory() && null == field.getValue()) {
+            throw new InvalidParameterException("Mandatory field is missed.");
+        } else {
+            result = true;
+        }
+        return result;
+    }
+
+    private boolean checkNull(Field field) {
+        //TODO
+        return true;
     }
 
 }

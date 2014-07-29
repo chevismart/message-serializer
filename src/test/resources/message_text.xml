@@ -1,6 +1,6 @@
 <messages>
     <message>
-        <name>LogonRequest</name>
+        <name>LoginRequest</name>
         <id>0x1000</id>
         <description>DESC</description>
         <direction>UP</direction>

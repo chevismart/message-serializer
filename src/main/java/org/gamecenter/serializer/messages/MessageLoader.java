@@ -61,7 +61,17 @@ public class MessageLoader {
         return factory;
     }
 
-    public Message getMessage(int mockMsgId) {
+    public Message getMessageByMsgId(int mockMsgId) {
         return messageMap.get(mockMsgId);
+    }
+
+    public Message getMessageByName(String msgName) {
+
+        for (Message msg : messageMap.values()) {
+            if (msg.getName().toLowerCase().equals(msgName.toLowerCase())) {
+                return msg;
+            }
+        }
+        return null;
     }
 }

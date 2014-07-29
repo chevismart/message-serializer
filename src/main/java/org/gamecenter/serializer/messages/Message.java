@@ -1,8 +1,5 @@
 package org.gamecenter.serializer.messages;
 
-import org.gamecenter.serializer.Decoder;
-
-import java.io.IOException;
 import java.util.List;
 
 /**
@@ -121,14 +118,4 @@ public class Message {
         this.fields = fields;
     }
 
-    protected void buildMessage(byte[] request, Decoder decoder) throws IOException, NoSuchFieldException, IllegalAccessException {
-        List<Field> fieldList = decoder.decode(request);
-
-        for (Field field : fieldList) {
-            java.lang.reflect.Field tmpField = this.getClass().getDeclaredField(field.getName());
-            tmpField.setAccessible(true);
-            tmpField.set(this, field.getValue());
-            tmpField.setAccessible(false);
-        }
-    }
 }

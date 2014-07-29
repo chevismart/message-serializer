@@ -11,19 +11,10 @@ import org.slf4j.LoggerFactory;
 /**
  * Created by Chevis on 14-7-24.
  */
-public class HeaderFilter {
+public class HeaderFilter extends Coder {
 
-    private final static int START_FLAG_LENGTH = 1;
-    private final static int MSG_SEQUENCE_LENGTH = 4;
-    private final static int DEVICE_ID_LENGTH = 4;
-    private final static int MESSAGE_TYPE_LENGTH = 2;
-    private final static int DATA_LENGTH = 2;
-    public final static int TOTAL_HEADER_LENGTH = START_FLAG_LENGTH + MSG_SEQUENCE_LENGTH + DEVICE_ID_LENGTH + MESSAGE_TYPE_LENGTH + DATA_LENGTH;
-    private final static int END_FLAG_LENGTH = 1;
     private final static Logger logger = LoggerFactory.getLogger(HeaderFilter.class);
 
-    private final static byte START_FLAG = 0x2A;
-    private final static byte END_FLAG = 0x23;
 
     public static MessageHeader getMessageHeader(byte[] message, MessageLoader loader) {
 
@@ -47,7 +38,7 @@ public class HeaderFilter {
 
                 msgHeader.setMsgBodyLength(ByteUtil.getShort(ByteUtil.subBytes(message, startPosition, DATA_LENGTH)));
 
-                Message msg = loader.getMessage(ByteUtil.getShort(msgHeader.getMessageId()));
+                Message msg = loader.getMessageByMsgId(ByteUtil.getShort(msgHeader.getMessageId()));
                 if (null != msg && null != MessageType.valueOf(msg.getName())) {
                     msgHeader.setMsgType(MessageType.valueOf(msg.getName()));
                 } else {

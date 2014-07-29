@@ -1,7 +1,7 @@
 package org.gamecenter.serializer.messages.upStream;
 
 import org.gamecenter.serializer.Decoder;
-import org.gamecenter.serializer.messages.Message;
+import org.gamecenter.serializer.messages.AbstractMessage;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -11,7 +11,7 @@ import java.util.Arrays;
 /**
  * Created by Boss on 2014/7/23.
  */
-public class LogonRequest extends Message implements Request {
+public class LogonRequest extends AbstractMessage {
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
     private byte[] centerId;
 
@@ -59,7 +59,7 @@ public class LogonRequest extends Message implements Request {
     }
 
     @Override
-    public void submit() {
-
+    public byte[] build() {
+        return new byte[0];
     }
 }

@@ -4,19 +4,16 @@ package org.gamecenter.serializer.messages;
 import org.gamecenter.serializer.utils.XMLMessageConverter;
 import org.junit.Before;
 import org.junit.Test;
-import org.mockito.internal.util.reflection.Whitebox;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.net.URLDecoder;
-import java.util.ArrayList;
 import java.util.Map;
 
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.verify;
 
 public class MessageFactoryTest {
 
@@ -66,8 +63,18 @@ public class MessageFactoryTest {
         msgLoader = MessageLoader.INSTANCE();
         converter = new XMLMessageConverter();
         int mockMsgId = 0x1001;
-        Message msg = msgLoader.getMessage(mockMsgId);
+        Message msg = msgLoader.getMessageByMsgId(mockMsgId);
         assertTrue(mockMsgId == msg.getId());
     }
 
+    @Test
+    public void getMessageByMessageNameSuccessfully() throws Exception {
+        msgLoader = MessageLoader.INSTANCE();
+        converter = new XMLMessageConverter();
+        String msgName = "LoginRequest";
+        Message msg = msgLoader.getMessageByName(msgName);
+        int mockMsgId = 0x1001;
+        assertTrue(mockMsgId == msg.getId());
+
+    }
 }

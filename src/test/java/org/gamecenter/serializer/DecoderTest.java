@@ -1,6 +1,5 @@
-package org.gamecenter.serializer.utils;
+package org.gamecenter.serializer;
 
-import org.gamecenter.serializer.Decoder;
 import org.gamecenter.serializer.messages.Field;
 import org.gamecenter.serializer.messages.Message;
 import org.gamecenter.serializer.messages.MessageLoader;
@@ -47,7 +46,7 @@ public class DecoderTest {
         Message msg = new Message();
         msg.setName("LoginRequest");
         msg.setFields(new ArrayList<Field>());
-        when(loader.getMessage(anyInt())).thenReturn(msg);
+        when(loader.getMessageByMsgId(anyInt())).thenReturn(msg);
         byte[] equalCase = new byte[]{0x2A, 0x01, 0x10, 0x04, 0x00, 0x06, 0x02, 0x06, 0x29, 0x01, 0x10, 0x00, 0x00, 0x23};
         assertNotNull(decoder.decode(equalCase));
     }
