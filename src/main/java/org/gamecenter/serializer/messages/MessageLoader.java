@@ -8,8 +8,8 @@ import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.io.IOException;
-import java.io.UnsupportedEncodingException;
-import java.net.URLDecoder;
+import java.net.URISyntaxException;
+import java.net.URL;
 import java.util.*;
 
 /**
@@ -17,56 +17,20 @@ import java.util.*;
  */
 public class MessageLoader {
 
-    private static String SYSTEM_MESSAGES_XML = "messages/systemMessages.xml";
-    private static String ENCODE_TYPE = "UTF-8";
     private static MessageLoader factory;
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
     XMLMessageConverter converter;
     private Map<Integer, Message> messageMap;
 
     public MessageLoader() {
-
+        converter = new XMLMessageConverter();
         messageMap = new HashMap<Integer, Message>();
-
         Properties config = getConfig();
-
         List<String> msgList = Arrays.asList(((String) config.get(MessageConstants.ALL_MSG_SPEC_KEY)).split(","));
-
         for (String msgSpec : msgList) {
             String path = (String) config.get(msgSpec);
             messageMap.putAll(convertToMessageMap(path));
         }
-
-//
-//        converter = new XMLMessageConverter();
-//        messageMap = new HashMap<Integer, Message>();
-//        String xmlPath = this.getClass().getClassLoader().getResource(SYSTEM_MESSAGES_XML).getPath();
-//        try {
-//            xmlPath = URLDecoder.decode(xmlPath, "UTF-8");
-//        } catch (UnsupportedEncodingException e) {
-//            e.printStackTrace();
-//        }
-//        logger.info("XML path is {}", xmlPath);
-//        File xmlFile = new File(xmlPath);
-//        if (!xmlFile.exists()) {
-//            logger.error("{} file not Found", xmlFile.getName());
-//        }
-//        ArrayList<Message> messageList = (ArrayList<Message>) converter.convertXML2Messages(xmlFile);
-//        for (Message msg : messageList) {
-//            int minConunter = 0;
-//            int maxConunter = 0;
-//            for (Field field : msg.getFields()) {
-//                int fieldLength = field.getLength();
-//                if (field.isMandatory()) {
-//                    minConunter += fieldLength;
-//                }
-//                maxConunter += fieldLength;
-//            }
-//            msg.setMinLength(minConunter);
-//            msg.setMaxLength(maxConunter);
-//            messageMap.put(msg.getId(), msg);
-//        }
-
     }
 
     public static MessageLoader INSTANCE() {
@@ -117,18 +81,13 @@ public class MessageLoader {
             return null;
         }
 
-        String url = null;
-
+        File msgXML = null;
         try {
-            String tmp = URLDecoder.decode(msgSpecPath, ENCODE_TYPE);
-            String path = Object.class.getClass().getResource("").getPath();
-            url = this.getClass().getClassLoader().getResource(tmp).getPath();
-        } catch (UnsupportedEncodingException e) {
-            logger.error("Load the message spec {} failed!", msgSpecPath);
+            URL url = this.getClass().getClassLoader().getResource(msgSpecPath);
+            msgXML = new File(url.toURI());
+        } catch (URISyntaxException e) {
+            logger.error("XML file is not exists.");
         }
-        File msgXML = new File(url);
-        logger.info("XML({}) is loaded.", url);
-
         return msgXML;
     }
 
@@ -147,7 +106,6 @@ public class MessageLoader {
     }
 
     public Message getMessageByName(String msgName) {
-
         for (Message msg : messageMap.values()) {
             if (msg.getName().toLowerCase().equals(msgName.toLowerCase())) {
                 return msg;
