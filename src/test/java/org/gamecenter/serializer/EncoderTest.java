@@ -11,6 +11,12 @@ public class EncoderTest {
     Encoder encoder;
 
     @Test
+    public void encodeTheMessageWithOneOr() throws Exception {
+
+
+    }
+
+    @Test
     public void encodeAnEmptyFieldMessageSuccessfully() throws Exception {
 
         encoder = new Encoder();

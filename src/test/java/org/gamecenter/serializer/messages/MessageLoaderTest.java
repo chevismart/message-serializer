@@ -15,7 +15,7 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.mock;
 
-public class MessageFactoryTest {
+public class MessageLoaderTest {
 
     private static String SYSTEM_MESSAGES_XML = "message_text.xml";
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
