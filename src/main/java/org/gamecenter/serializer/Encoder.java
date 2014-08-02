@@ -6,10 +6,10 @@ import org.gamecenter.serializer.messages.AbstractMessage;
 import org.gamecenter.serializer.messages.Field;
 import org.gamecenter.serializer.messages.Message;
 import org.gamecenter.serializer.messages.MessageLoader;
+import org.gamecenter.serializer.utils.ByteUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -28,11 +28,21 @@ public class Encoder extends Coder {
         logger.debug("There are {} field(s) to be encoded.", fieldList.size());
 
         byteMsg = assembleByteArray(byteMsg, START_FLAG);
+        if (Coder.MSG_SEQUENCE_LENGTH == message.getSequenceNum().length) {
+            byteMsg = assembleByteArray(byteMsg, message.getSequenceNum());
+        } else {
+            logger.error("Length of message sequence is not valid.");
+        }
+        if (Coder.DEVICE_ID_LENGTH == message.getDeviceId().length) {
+            byteMsg = assembleByteArray(byteMsg, message.getDeviceId());
+        } else {
+            logger.error("Length of device id is not valid");
+        }
+        byteMsg = assembleByteArray(byteMsg, ByteUtil.getBytes(msg.getId()));
 
         for (Field field : msg.getFields()) {
-            logger.debug("Field {} to be encoded.", field.getName());
-            byteMsg = Arrays.copyOf(byteMsg, byteMsg.length + field.getLength());
-            byteMsg = ArrayUtils.addAll(byteMsg, getBytes(field));
+            logger.debug("Field [{}] to be encoded.", field.getName());
+            byteMsg = assembleByteArray(byteMsg, getBytes(field, message));
         }
 
         //TODO: check null for message header
@@ -44,13 +54,17 @@ public class Encoder extends Coder {
         return byteMsg;
     }
 
-    private byte[] getBytes(Field field) {
+    private byte[] getBytes(Field field,AbstractMessage message) {
 // TODO: to verify each type of the field value conversion.
-//        if(field.getType().getClass().getName().equals(String.class.getSimpleName().toLowerCase())){
-        return null;
+        if(field.getType().toLowerCase().equals(String.class.getSimpleName().toLowerCase())){
+            try {
+               return ByteUtil.getBytes((String)message.getFieldValue(field.getName()));
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
 //            )
-//        }
-//        return new byte[0];
+        }
+        return new byte[0];
     }
 
     private byte[] assembleByteArray(byte[] sourceByteArray, byte byteVar) {

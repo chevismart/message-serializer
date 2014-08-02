@@ -1,0 +1,17 @@
+<messages>
+    <message>
+        <name>PowerControlRequest</name>
+        <id>0x1006</id>
+        <description>DESC</description>
+        <direction>DOWN</direction>
+        <fields>
+            <field>
+                <name>switcher</name>
+                <type>STRING</type>
+                <mandatory>true</mandatory>
+                <checkNull>true</checkNull>
+                <length>1</length>
+            </field>
+        </fields>
+    </message>
+</messages>

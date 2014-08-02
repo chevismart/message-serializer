@@ -20,11 +20,11 @@ public class MessageLoader {
     private static MessageLoader factory;
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
     XMLMessageConverter converter;
-    private Map<Integer, Message> messageMap;
+    private Map<Short, Message> messageMap;
 
     public MessageLoader() {
         converter = new XMLMessageConverter();
-        messageMap = new HashMap<Integer, Message>();
+        messageMap = new HashMap<Short, Message>();
         Properties config = getConfig();
         List<String> msgList = Arrays.asList(((String) config.get(MessageConstants.ALL_MSG_SPEC_KEY)).split(","));
         for (String msgSpec : msgList) {
@@ -40,8 +40,8 @@ public class MessageLoader {
         return factory;
     }
 
-    private Map<Integer, Message> convertToMessageMap(String msgSpec) {
-        Map<Integer, Message> msgMap = new HashMap<Integer, Message>();
+    private Map<Short, Message> convertToMessageMap(String msgSpec) {
+        Map<Short, Message> msgMap = new HashMap<Short, Message>();
 
         File xmlFile = loadMessageSpec(msgSpec);
 

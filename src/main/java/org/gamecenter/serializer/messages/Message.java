@@ -8,55 +8,12 @@ import java.util.List;
 public class Message {
 
     private String name;
-    private int id;
+    private short id;
     private String direction;
     private String description;
     private List<Field> fields;
     private int minLength;
     private int maxLength;
-
-    @Override
-    public String toString() {
-        return "Message{" +
-                "name='" + name + '\'' +
-                ", id=" + id +
-                ", direction='" + direction + '\'' +
-                ", description='" + description + '\'' +
-                ", fields=" + fields +
-                ", minLength=" + minLength +
-                ", maxLength=" + maxLength +
-                '}';
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-
-        Message message = (Message) o;
-
-        if (id != message.id) return false;
-        if (maxLength != message.maxLength) return false;
-        if (minLength != message.minLength) return false;
-        if (description != null ? !description.equals(message.description) : message.description != null) return false;
-        if (direction != null ? !direction.equals(message.direction) : message.direction != null) return false;
-        if (fields != null ? !fields.equals(message.fields) : message.fields != null) return false;
-        if (name != null ? !name.equals(message.name) : message.name != null) return false;
-
-        return true;
-    }
-
-    @Override
-    public int hashCode() {
-        int result = name != null ? name.hashCode() : 0;
-        result = 31 * result + id;
-        result = 31 * result + (direction != null ? direction.hashCode() : 0);
-        result = 31 * result + (description != null ? description.hashCode() : 0);
-        result = 31 * result + (fields != null ? fields.hashCode() : 0);
-        result = 31 * result + minLength;
-        result = 31 * result + maxLength;
-        return result;
-    }
 
     public int getMaxLength() {
 
@@ -94,12 +51,56 @@ public class Message {
         this.name = name;
     }
 
-    public int getId() {
+    public short getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(short id) {
+
         this.id = id;
+    }
+
+    @Override
+    public String toString() {
+        return "Message{" +
+                "name='" + name + '\'' +
+                ", id=" + id +
+                ", direction='" + direction + '\'' +
+                ", description='" + description + '\'' +
+                ", fields=" + fields +
+                ", minLength=" + minLength +
+                ", maxLength=" + maxLength +
+                '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Message message = (Message) o;
+
+        if (id != message.id) return false;
+        if (maxLength != message.maxLength) return false;
+        if (minLength != message.minLength) return false;
+        if (description != null ? !description.equals(message.description) : message.description != null) return false;
+        if (direction != null ? !direction.equals(message.direction) : message.direction != null) return false;
+        if (fields != null ? !fields.equals(message.fields) : message.fields != null) return false;
+        if (name != null ? !name.equals(message.name) : message.name != null) return false;
+
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = name != null ? name.hashCode() : 0;
+        result = 31 * result + (int) id;
+        result = 31 * result + (direction != null ? direction.hashCode() : 0);
+        result = 31 * result + (description != null ? description.hashCode() : 0);
+        result = 31 * result + (fields != null ? fields.hashCode() : 0);
+        result = 31 * result + minLength;
+        result = 31 * result + maxLength;
+        return result;
     }
 
     public String getDescription() {
