@@ -8,8 +8,4 @@ import org.gamecenter.serializer.messages.AbstractMessage;
  */
 public class LoginResponse extends AbstractMessage {
 
-    @Override
-    public byte[] build() {
-        return super.build(this);
-    }
 }

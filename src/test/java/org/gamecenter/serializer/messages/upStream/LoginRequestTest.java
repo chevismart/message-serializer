@@ -14,7 +14,9 @@ public class LoginRequestTest {
     @Test
     public void convertLoginRequestSuccessfully() throws Exception {
 
-        LoginRequest request = new LoginRequest(requetByte);
+        LoginRequest request = new LoginRequest();
+
+        request.parse(requetByte);
 
         assertNotNull(request);
         assertTrue(Arrays.equals(new byte[]{(byte) 0x99, 0x00, 0x00, 0x00}, request.getCenterId()));

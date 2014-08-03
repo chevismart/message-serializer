@@ -19,7 +19,7 @@ public abstract class AbstractMessage<T> {
     protected MessageHeader header;
     protected Encoder encoder;
     protected Decoder decoder;
-    Logger logger = LoggerFactory.getLogger(this.getClass());
+    protected Logger logger = LoggerFactory.getLogger(this.getClass());
 
     public static void getObjectValue(Object object) throws Exception {
         // 拿到该类
@@ -166,7 +166,7 @@ public abstract class AbstractMessage<T> {
         return result;
     }
 
-    abstract public byte[] build();
+//    abstract public byte[] build();
 
     protected void buildMessage(byte[] request) throws IOException, NoSuchFieldException, IllegalAccessException {
 
@@ -208,8 +208,13 @@ public abstract class AbstractMessage<T> {
         return null;
     }
 
-    public byte[] build(AbstractMessage message) {
+    public byte[] build() {
         encoder = new Encoder();
-        return encoder.encode(message);
+        return encoder.encode(this);
+    }
+
+    public void parse(byte[] bytes) throws NoSuchFieldException, IllegalAccessException, IOException {
+        buildMessage(bytes);
+        logger.debug("The {} is instanced! {}", this.getClass().getName(), toString());
     }
 }

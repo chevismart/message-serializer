@@ -48,7 +48,7 @@ public class Decoder extends Coder {
             for (Field field : fieldList) {
                 byte[] fieldBytes = ByteUtil.subBytes(bytes, pointer, field.getLength());
                 Field fieldVal = null;
-                logger.debug("Read byte(s) value: {}", fieldBytes);
+                logger.debug("Read byte(s) value: {}", ByteArrayUtil.toHexString(fieldBytes));
                 if (isFieldType(FieldType.BYTE, field)) {
                     fieldVal = new Field<Byte>(field);
                     fieldVal.setValue(fieldBytes[0]);
