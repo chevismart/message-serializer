@@ -1,6 +1,5 @@
 package org.gamecenter.serializer.messages.upStream;
 
-import org.gamecenter.serializer.Decoder;
 import org.gamecenter.serializer.messages.AbstractMessage;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -11,12 +10,12 @@ import java.util.Arrays;
 /**
  * Created by Boss on 2014/7/23.
  */
-public class LogonRequest extends AbstractMessage {
+public class LoginRequest extends AbstractMessage {
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
     private byte[] centerId;
 
-    public LogonRequest(byte[] request, Decoder decoder) throws NoSuchFieldException, IllegalAccessException, IOException {
-        buildMessage(request, decoder);
+    public LoginRequest(byte[] request) throws NoSuchFieldException, IllegalAccessException, IOException {
+        buildMessage(request);
         logger.debug("The {} is instanced! {}", this.getClass().getName(), toString());
     }
 
@@ -26,7 +25,7 @@ public class LogonRequest extends AbstractMessage {
         if (o == null || getClass() != o.getClass()) return false;
         if (!super.equals(o)) return false;
 
-        LogonRequest request = (LogonRequest) o;
+        LoginRequest request = (LoginRequest) o;
 
         if (!Arrays.equals(centerId, request.centerId)) return false;
         if (logger != null ? !logger.equals(request.logger) : request.logger != null) return false;

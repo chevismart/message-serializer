@@ -1,6 +1,5 @@
 package org.gamecenter.serializer.messages.downStream;
 
-import org.gamecenter.serializer.Encoder;
 import org.gamecenter.serializer.messages.AbstractMessage;
 
 
@@ -9,14 +8,8 @@ import org.gamecenter.serializer.messages.AbstractMessage;
  */
 public class LoginResponse extends AbstractMessage {
 
-    private final Encoder encoder;
-
-    public LoginResponse(Encoder encoder) {
-        this.encoder = encoder;
-    }
-
     @Override
     public byte[] build() {
-        return encoder.encode(this);
+        return super.build(this);
     }
 }

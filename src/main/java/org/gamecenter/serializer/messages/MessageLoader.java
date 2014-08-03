@@ -101,7 +101,7 @@ public class MessageLoader {
         return config;
     }
 
-    public Message getMessageByMsgId(int mockMsgId) {
+    public Message getMessageByMsgId(short mockMsgId) {
         return messageMap.get(mockMsgId);
     }
 

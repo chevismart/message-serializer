@@ -1,6 +1,7 @@
 package org.gamecenter.serializer;
 
 import ch.qos.logback.core.encoder.ByteArrayUtil;
+import org.gamecenter.serializer.messages.MessageHeader;
 import org.gamecenter.serializer.messages.downStream.LoginResponse;
 import org.gamecenter.serializer.messages.downStream.PowerControlRequest;
 import org.junit.Before;
@@ -18,8 +19,10 @@ public class EncoderTest {
     @Test
     public void encodeTheMessageWithOneFieldMessageSuccessfully() throws Exception {
         PowerControlRequest request = new PowerControlRequest(encoder);
-        request.setDeviceId(new byte[]{0x01, 0x02, 0x03, 0x04});
-        request.setSequenceNum(new byte[]{0x01, 0x00, 0x00, 0x00});
+        MessageHeader header = new MessageHeader();
+        header.setDeviceId(new byte[]{0x01, 0x02, 0x03, 0x04});
+        header.setMessageSN(new byte[]{0x01, 0x00, 0x00, 0x00});
+        request.setHeader(header);
         request.setSwitcher("Y");
         byte[] byteArray = encoder.encode(request);
         System.err.println((ByteArrayUtil.toHexString(byteArray)));
@@ -29,10 +32,11 @@ public class EncoderTest {
     public void encodeAnEmptyFieldMessageSuccessfully() throws Exception {
 
 
-        LoginResponse response = new LoginResponse(encoder);
-        response.setDeviceId(new byte[]{0x01, 0x02, 0x03, 0x04});
-        response.setSequenceNum(new byte[]{0x01, 0x00, 0x00, 0x00});
-
+        LoginResponse response = new LoginResponse();
+        MessageHeader header = new MessageHeader();
+        header.setDeviceId(new byte[]{0x01, 0x02, 0x03, 0x04});
+        header.setMessageSN(new byte[]{0x01, 0x00, 0x00, 0x00});
+        response.setHeader(header);
         byte[] byteArray = encoder.encode(response);
         System.err.println((ByteArrayUtil.toHexString(byteArray)));
     }

@@ -1,20 +1,25 @@
 package org.gamecenter.serializer.messages;
 
 import org.gamecenter.serializer.Decoder;
+import org.gamecenter.serializer.Encoder;
+import org.gamecenter.serializer.HeaderFilter;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.lang.reflect.Method;
 import java.util.Date;
 import java.util.List;
-import java.util.Objects;
 
 /**
  * Created by Chevis on 14-7-29.
  */
 public abstract class AbstractMessage<T> {
 
-    protected byte[] sequenceNum;
-    protected byte[] deviceId;
+    protected MessageHeader header;
+    protected Encoder encoder;
+    protected Decoder decoder;
+    Logger logger = LoggerFactory.getLogger(this.getClass());
 
     public static void getObjectValue(Object object) throws Exception {
         // 拿到该类
@@ -126,25 +131,51 @@ public abstract class AbstractMessage<T> {
         return new String(items);
     }
 
-    public byte[] getSequenceNum() {
-        return sequenceNum;
+    public MessageHeader getHeader() {
+        return header;
     }
 
-    public void setSequenceNum(byte[] sequenceNum) {
-        this.sequenceNum = sequenceNum;
+    public void setHeader(MessageHeader header) {
+        this.header = header;
     }
 
-    public byte[] getDeviceId() {
-        return deviceId;
+    @Override
+    public String toString() {
+        return "AbstractMessage{" +
+                "header=" + header +
+                '}';
     }
 
-    public void setDeviceId(byte[] deviceId) {
-        this.deviceId = deviceId;
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        AbstractMessage that = (AbstractMessage) o;
+
+        if (header != null ? !header.equals(that.header) : that.header != null) return false;
+        if (logger != null ? !logger.equals(that.logger) : that.logger != null) return false;
+
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = header != null ? header.hashCode() : 0;
+        result = 31 * result + (logger != null ? logger.hashCode() : 0);
+        return result;
     }
 
     abstract public byte[] build();
 
-    protected void buildMessage(byte[] request, Decoder decoder) throws IOException, NoSuchFieldException, IllegalAccessException {
+    protected void buildMessage(byte[] request) throws IOException, NoSuchFieldException, IllegalAccessException {
+
+        decoder = new Decoder();
+
+        MessageHeader msgHeader = HeaderFilter.getMessageHeader(request, MessageLoader.INSTANCE());
+
+        this.setHeader(msgHeader);
+
         List<Field> fieldList = decoder.decode(request);
 
         for (Field field : fieldList) {
@@ -170,10 +201,15 @@ public abstract class AbstractMessage<T> {
 
             String val = (String) m.invoke(this);// 调用getter方法获取属性值
             if (val != null) {
-                System.out.println("String type:" + val);
+                logger.debug("Value type: {}, value is: {}", val.getClass().getSimpleName(), val);
                 return val;
             }
         }
         return null;
+    }
+
+    public byte[] build(AbstractMessage message) {
+        encoder = new Encoder();
+        return encoder.encode(message);
     }
 }

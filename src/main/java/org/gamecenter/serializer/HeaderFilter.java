@@ -38,10 +38,17 @@ public class HeaderFilter extends Coder {
 
                 msgHeader.setMsgBodyLength(ByteUtil.getShort(ByteUtil.subBytes(message, startPosition, DATA_LENGTH)));
 
-                Message msg = loader.getMessageByMsgId(ByteUtil.getShort(msgHeader.getMessageId()));
-                if (null != msg && null != MessageType.valueOf(msg.getName())) {
+
+                short msgId = ByteUtil.getShort(msgHeader.getMessageId());
+
+                try {
+                    Message msg = loader.getMessageByMsgId(msgId);
                     msgHeader.setMsgType(MessageType.valueOf(msg.getName()));
-                } else {
+                } catch (Exception e) {
+
+//                }
+//                if (null != msg && null != MessageType.valueOf(msg.getName())) {
+//                } else {
                     logger.error("No message definition found for messageId = {}.", msgHeader.getMessageId());
                 }
 

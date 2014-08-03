@@ -28,13 +28,13 @@ public class Encoder extends Coder {
         logger.debug("There are {} field(s) to be encoded.", fieldList.size());
 
         byteMsg = assembleByteArray(byteMsg, START_FLAG);
-        if (Coder.MSG_SEQUENCE_LENGTH == message.getSequenceNum().length) {
-            byteMsg = assembleByteArray(byteMsg, message.getSequenceNum());
+        if (Coder.MSG_SEQUENCE_LENGTH == message.getHeader().getMessageSN().length) {
+            byteMsg = assembleByteArray(byteMsg, message.getHeader().getMessageSN());
         } else {
             logger.error("Length of message sequence is not valid.");
         }
-        if (Coder.DEVICE_ID_LENGTH == message.getDeviceId().length) {
-            byteMsg = assembleByteArray(byteMsg, message.getDeviceId());
+        if (Coder.DEVICE_ID_LENGTH == message.getHeader().getDeviceId().length) {
+            byteMsg = assembleByteArray(byteMsg, message.getHeader().getDeviceId());
         } else {
             logger.error("Length of device id is not valid");
         }

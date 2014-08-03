@@ -33,7 +33,7 @@ public class Decoder extends Coder {
             byte[] bytes = ByteUtil.subBytes(msgBytes, HeaderFilter.TOTAL_HEADER_LENGTH, header.getMsgBodyLength());
 
 
-            int msgId = ByteUtil.getShort(header.getMessageId());
+            short msgId = ByteUtil.getShort(header.getMessageId());
 
             Message message = loader.getMessageByMsgId(msgId);
 
