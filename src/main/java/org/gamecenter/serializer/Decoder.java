@@ -18,7 +18,7 @@ import java.util.List;
 /**
  * Created by Chevis on 14-7-16.
  */
-public class Decoder extends Coder {
+public class Decoder extends Codec {
 
     MessageLoader loader = MessageLoader.INSTANCE();
     private Logger logger = LoggerFactory.getLogger(Decoder.class);
@@ -80,10 +80,13 @@ public class Decoder extends Coder {
 
     private boolean isBodyLengthMatch(MessageHeader header, byte[] bytes) {
 
-        boolean result = HeaderFilter.TOTAL_HEADER_LENGTH + header.getMsgBodyLength() < bytes.length;
+        int requireLength = header.getMsgBodyLength();
+        int actualLength = bytes.length - HeaderFilter.TOTAL_HEADER_LENGTH - HeaderFilter.END_FLAG_LENGTH;
+
+        boolean result = requireLength == actualLength;
 
         if (!result) {
-            throw new ArrayIndexOutOfBoundsException("Message body length is mismatch!");
+            throw new ArrayIndexOutOfBoundsException("Message body length is mismatch! Require: " + requireLength + ", Actual: " + actualLength);
         }
 
         return result;

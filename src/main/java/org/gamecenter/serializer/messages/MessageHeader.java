@@ -70,6 +70,10 @@ public class MessageHeader {
         return msgBodyLength;
     }
 
+    public MessageType getMsgType() {
+        return msgType;
+    }
+
     public void setMsgBodyLength(int msgBodyLength) {
         this.msgBodyLength = msgBodyLength;
     }

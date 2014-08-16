@@ -11,7 +11,7 @@ import org.slf4j.LoggerFactory;
 /**
  * Created by Chevis on 14-7-24.
  */
-public class HeaderFilter extends Coder {
+public class HeaderFilter extends Codec {
 
     private final static Logger logger = LoggerFactory.getLogger(HeaderFilter.class);
 
@@ -20,9 +20,9 @@ public class HeaderFilter extends Coder {
 
         MessageHeader msgHeader = null;
 
-        if (START_FLAG == message[0] && END_FLAG == message[message.length - 1]) {
+        if (START_FLAG == message[0]) {
 
-            if (message.length >= TOTAL_HEADER_LENGTH + END_FLAG_LENGTH) {
+            if (message.length >= TOTAL_HEADER_LENGTH) {
                 msgHeader = new MessageHeader();
 
                 int startPosition = START_FLAG_LENGTH;
@@ -34,7 +34,7 @@ public class HeaderFilter extends Coder {
                 startPosition += DEVICE_ID_LENGTH;
 
                 msgHeader.setMessageId(ByteUtil.subBytes(message, startPosition, MESSAGE_TYPE_LENGTH));
-                startPosition += DATA_LENGTH;
+                startPosition += MESSAGE_TYPE_LENGTH;
 
                 msgHeader.setMsgBodyLength(ByteUtil.getShort(ByteUtil.subBytes(message, startPosition, DATA_LENGTH)));
 

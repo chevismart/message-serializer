@@ -15,7 +15,7 @@ import java.util.List;
 /**
  * Created by Chevis on 14-7-16.
  */
-public class Encoder extends Coder {
+public class Encoder extends Codec {
 
     MessageLoader loader = MessageLoader.INSTANCE();
     private Logger logger = LoggerFactory.getLogger(Decoder.class);
@@ -28,12 +28,12 @@ public class Encoder extends Coder {
         logger.debug("There are {} field(s) to be encoded.", fieldList.size());
 
         byteMsg = assembleByteArray(byteMsg, START_FLAG);
-        if (Coder.MSG_SEQUENCE_LENGTH == message.getHeader().getMessageSN().length) {
+        if (Codec.MSG_SEQUENCE_LENGTH == message.getHeader().getMessageSN().length) {
             byteMsg = assembleByteArray(byteMsg, message.getHeader().getMessageSN());
         } else {
             logger.error("Length of message sequence is not valid.");
         }
-        if (Coder.DEVICE_ID_LENGTH == message.getHeader().getDeviceId().length) {
+        if (Codec.DEVICE_ID_LENGTH == message.getHeader().getDeviceId().length) {
             byteMsg = assembleByteArray(byteMsg, message.getHeader().getDeviceId());
         } else {
             logger.error("Length of device id is not valid");
