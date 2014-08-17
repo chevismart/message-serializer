@@ -47,7 +47,8 @@ public class Encoder extends Codec {
 
         //TODO: check null for message header
 
-        byteMsg = assembleByteArray(byteMsg, END_FLAG);
+        // Assemble tailer segment
+        byteMsg = assembleByteArray(byteMsg, getTailer());
 
         logger.debug("The final byte array is = {}", ByteArrayUtil.toHexString(byteMsg));
 

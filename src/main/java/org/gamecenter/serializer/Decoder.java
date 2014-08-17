@@ -81,7 +81,7 @@ public class Decoder extends Codec {
     private boolean isBodyLengthMatch(MessageHeader header, byte[] bytes) {
 
         int requireLength = header.getMsgBodyLength();
-        int actualLength = bytes.length - HeaderFilter.TOTAL_HEADER_LENGTH - HeaderFilter.END_FLAG_LENGTH;
+        int actualLength = bytes.length - HeaderFilter.TOTAL_HEADER_LENGTH - HeaderFilter.TAILER_LENGTH;
 
         boolean result = requireLength == actualLength;
 
