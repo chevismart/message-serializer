@@ -6,7 +6,7 @@ import org.gamecenter.serializer.messages.Message;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.File;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -36,7 +36,7 @@ public class XMLMessageConverter extends XStream {
     }
 
 
-    public List<Message> convertXML2Messages(File xmlFile) {
+    public List<Message> convertXML2Messages(InputStream xmlFile) {
         List<Message> msgList = new ArrayList<Message>();
         try {
             msgList = (List<Message>) this.fromXML(xmlFile);

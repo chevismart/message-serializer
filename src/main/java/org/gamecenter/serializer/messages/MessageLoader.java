@@ -6,10 +6,8 @@ import org.gamecenter.serializer.utils.XMLMessageConverter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.File;
 import java.io.IOException;
-import java.net.URISyntaxException;
-import java.net.URL;
+import java.io.InputStream;
 import java.util.*;
 
 /**
@@ -43,9 +41,9 @@ public class MessageLoader {
     private Map<Short, Message> convertToMessageMap(String msgSpec) {
         Map<Short, Message> msgMap = new HashMap<Short, Message>();
 
-        File xmlFile = loadMessageSpec(msgSpec);
+        InputStream xmlFile = loadMessageSpec(msgSpec);
 
-        if (xmlFile.exists()) {
+        if (null != xmlFile) {
 
             ArrayList<Message> messageList = (ArrayList<Message>) converter.convertXML2Messages(xmlFile);
 
@@ -74,21 +72,21 @@ public class MessageLoader {
         return msgMap;
     }
 
-    private File loadMessageSpec(String msgSpecPath) {
+    private InputStream loadMessageSpec(String msgSpecPath) {
+
+        logger.info("Message spec path is = {}", msgSpecPath);
 
         if (StringUtils.isEmpty(msgSpecPath)) {
-            logger.warn("XML path is empty, there is no message spec to be load.");
+            logger.warn("XML path() is empty, there is no message spec to be load.");
             return null;
         }
+        InputStream is = this.getClass().getClassLoader().getResourceAsStream(msgSpecPath);
 
-        File msgXML = null;
-        try {
-            URL url = this.getClass().getClassLoader().getResource(msgSpecPath);
-            msgXML = new File(url.toURI());
-        } catch (URISyntaxException e) {
+        if(null == is){
             logger.error("XML file is not exists.");
         }
-        return msgXML;
+
+        return is;
     }
 
     private Properties getConfig() {
