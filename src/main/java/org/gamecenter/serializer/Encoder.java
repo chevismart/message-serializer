@@ -20,7 +20,7 @@ public class Encoder extends Codec {
     MessageLoader loader = MessageLoader.INSTANCE();
     private Logger logger = LoggerFactory.getLogger(Decoder.class);
 
-    public byte[] encode(AbstractMessage message) {
+    public byte[] encode(AbstractMessage message) throws Exception {
         byte[] byteMsg = new byte[0];
 
         Message msg = loadMessageDefinition(message.getClass().getSimpleName());
@@ -38,7 +38,10 @@ public class Encoder extends Codec {
         } else {
             logger.error("Length of device id is not valid");
         }
-        byteMsg = assembleByteArray(byteMsg, ByteUtil.getBytes(msg.getId()));
+
+        byteMsg = assembleByteArray(byteMsg, ByteUtil.getMessageId(msg.getId()));
+
+        byteMsg = assembleByteArray(byteMsg, ByteUtil.getBytes((short) msg.getMaxLength()));
 
         for (Field field : msg.getFields()) {
             logger.debug("Field [{}] to be encoded.", field.getName());
@@ -55,16 +58,19 @@ public class Encoder extends Codec {
         return byteMsg;
     }
 
-    private byte[] getBytes(Field field,AbstractMessage message) {
+    private byte[] getBytes(Field field, AbstractMessage message) throws Exception {
 // TODO: to verify each type of the field value conversion.
-        if(field.getType().toLowerCase().equals(String.class.getSimpleName().toLowerCase())){
-            try {
-               return ByteUtil.getBytes((String)message.getFieldValue(field.getName()));
-            } catch (Exception e) {
-                e.printStackTrace();
+        if (field.getType().toLowerCase().equals(String.class.getSimpleName().toLowerCase())) {
+            return ByteUtil.getBytes((String) message.getFieldValue(field.getName()));
+        } else if (field.getType().toLowerCase().equals(Byte.class.getSimpleName().toLowerCase() + "s")) {
+            return (byte[]) message.getFieldValue(field.getName());
+        } else {
+            byte[] emptyField = new byte[field.getLength()];
+            for (int i = 0; i < field.getLength(); i++) {
+                emptyField[i] = 0;
             }
-//            )
         }
+
         return new byte[0];
     }
 

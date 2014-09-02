@@ -1,11 +1,19 @@
 package org.gamecenter.serializer.utils;
 
+import ch.qos.logback.core.encoder.ByteArrayUtil;
+import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.nio.charset.Charset;
 
 /**
  * Created by Chevis on 14-7-21.
  */
 public class ByteUtil {
+
+    private static Logger logger = LoggerFactory.getLogger(ByteUtil.class);
+    private static String HEX_PERFIX = "0x";
 
     public static byte[] getMsgId(int msgId) {
         byte[] bytes = new byte[2];
@@ -69,6 +77,10 @@ public class ByteUtil {
         return getBytes(data, "GBK");
     }
 
+    public static byte[] getByte(byte[] data) {
+        return data;
+    }
+
 
     public static short getShort(byte[] bytes) {
         return (short) ((0xff & bytes[0]) | (0xff00 & (bytes[1] << 8)));
@@ -80,6 +92,25 @@ public class ByteUtil {
 
     public static byte[] getMsgId(byte[] bytes) {
         return new byte[]{bytes[1], bytes[0]};
+    }
+
+    public static byte[] getMessageId(String msgId) {
+
+        if (StringUtils.isEmpty(msgId)) {
+            logger.error("Empty string could not be converted to message id..");
+            return null;
+        } else if ((msgId.contains(HEX_PERFIX) && msgId.length() != 6) || ((!msgId.contains(HEX_PERFIX)) && msgId.length() != 4)) {
+            logger.error("message id string [{}] could not be converted to message id in byte array!", msgId);
+            return null;
+        } else {
+            String tmpStr = msgId.replaceAll("0x", "");
+            return ByteUtil.getMsgId(ByteUtil.toByteArray(tmpStr));
+        }
+    }
+
+    public static String getMessageId(byte[] bytes) {
+
+        return HEX_PERFIX + ByteArrayUtil.toHexString(new byte[]{bytes[1], bytes[0]});
     }
 
     public static int getInteger(byte[] bytes) {
@@ -113,6 +144,28 @@ public class ByteUtil {
         byte[] bs = new byte[count];
         for (int i = begin; i < begin + count; i++) bs[i - begin] = src[i];
         return bs;
+    }
+
+    /**
+     * 16进制的字符串表示转成字节数组
+     *
+     * @param hexString 16进制格式的字符串
+     * @return 转换后的字节数组
+     */
+    public static byte[] toByteArray(String hexString) {
+        if (StringUtils.isEmpty(hexString))
+            throw new IllegalArgumentException("this hexString must not be empty");
+
+        hexString = hexString.toLowerCase();
+        final byte[] byteArray = new byte[hexString.length() / 2];
+        int k = 0;
+        for (int i = 0; i < byteArray.length; i++) {//因为是16进制，最多只会占用4位，转换成字节需要两个16进制的字符，高位在先
+            byte high = (byte) (Character.digit(hexString.charAt(k), 16) & 0xff);
+            byte low = (byte) (Character.digit(hexString.charAt(k + 1), 16) & 0xff);
+            byteArray[i] = (byte) (high << 4 | low);
+            k += 2;
+        }
+        return byteArray;
     }
 
 }

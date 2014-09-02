@@ -15,7 +15,12 @@ public class LoginRequestTest {
 
     private Logger logger = LoggerFactory.getLogger(this.getClass());
 
-    byte[] requetByte = new byte[]{0x2a, 0x01, 0x00, 0x00, 0x00, 0x01, 0x02, 0x03, 0x04, 0x01, 0x10, 0x04, 0x00,  0x59, 0x00, 0x00, 0x00,0x00, 0x00, 0x23};
+    byte[] macAddr = new byte[]{0x6c, (byte) 0xf0, 0x049, (byte) 0xb6, 0x4d, (byte) 0xf3};
+    byte[] centerId = new byte[]{0x59, 0x00, 0x00, 0x00};
+    byte[] messageSN = new byte[]{0x01, 0x00, 0x00, 0x00};
+    byte[] deviceId = new byte[]{0x01, 0x02, 0x03, 0x04};
+    byte[] requetByte = new byte[]{0x2a, 0x01, 0x00, 0x00, 0x00, 0x01, 0x02, 0x03, 0x04, 0x01, 0x10, 0x0A, 0x00, 0x59, 0x00, 0x00, 0x00, 0x6c, (byte) 0xf0, 0x049, (byte) 0xb6, 0x4d, (byte) 0xf3, 0x00, 0x00, 0x23};
+
 
     @Test
     public void convertLoginRequestFromByteToObjectSuccessfully() throws Exception {
@@ -25,9 +30,10 @@ public class LoginRequestTest {
         request.parse(requetByte);
 
         assertNotNull(request);
-        assertTrue(Arrays.equals(new byte[]{0x59, 0x00, 0x00, 0x00}, request.getCenterId()));
-        assertTrue(Arrays.equals(new byte[]{0x01, 0x00, 0x00, 0x00}, request.getHeader().getMessageSN()));
-        assertTrue(Arrays.equals(new byte[]{0x01, 0x02, 0x03, 0x04}, request.getHeader().getDeviceId()));
+        assertTrue(Arrays.equals(centerId, request.getCenterId()));
+        assertTrue(Arrays.equals(messageSN, request.getHeader().getMessageSN()));
+        assertTrue(Arrays.equals(deviceId, request.getHeader().getDeviceId()));
+        assertTrue(Arrays.equals(macAddr, request.getMac()));
     }
 
     @Test
@@ -35,16 +41,18 @@ public class LoginRequestTest {
 
         LoginRequest request = new LoginRequest();
         MessageHeader header = new MessageHeader();
-        header.setDeviceId(new byte[]{0x12, 0x13, (byte) 0xa5, (byte) 0xff});
-
-        header.setMessageSN(new byte[]{0x02, 0x00, 0x00, 0x00});
+        header.setDeviceId(deviceId);
+        header.setMessageSN(messageSN);
         request.setHeader(header);
-
+        request.setCenterId(centerId);
+        request.setMac(macAddr);
         byte[] requestBytes = request.build();
 
-        System.err.println(this.getClass()+" in bytes is: "+ ByteArrayUtil.toHexString(requestBytes));
+        System.err.println(this.getClass() + " in bytes is: " + ByteArrayUtil.toHexString(requestBytes));
+        logger.info("The message from build = {}", ByteArrayUtil.toHexString(requestBytes));
+        logger.info("The message should be  = {}", ByteArrayUtil.toHexString(requetByte));
+        assertTrue(Arrays.equals(requestBytes, requetByte));
     }
-
 
 
 }

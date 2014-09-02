@@ -33,7 +33,7 @@ public class Decoder extends Codec {
             byte[] bytes = ByteUtil.subBytes(msgBytes, HeaderFilter.TOTAL_HEADER_LENGTH, header.getMsgBodyLength());
 
 
-            short msgId = ByteUtil.getShort(header.getMessageId());
+            String msgId = "0x" + ByteArrayUtil.toHexString(ByteUtil.getMsgId(header.getMessageId()));
 
             Message message = loader.getMessageByMsgId(msgId);
 

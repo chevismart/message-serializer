@@ -7,38 +7,24 @@ import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.File;
-import java.util.Map;
-
 import static org.junit.Assert.assertTrue;
 
 public class MessageLoaderTest {
 
-    private static String SYSTEM_MESSAGES_XML = "messages/message_text.xml";
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
     MessageLoader msgLoader;
-    File xmlFile;
     XMLMessageConverter converter;
-    Map<Integer, Message> msgMap;
 
     @Before
     public void setUp() throws Exception {
         logger.info("This is setup method");
-//        String xmlPath = this.getClass().getClassLoader().getResource(SYSTEM_MESSAGES_XML).getPath();
-//        xmlPath = URLDecoder.decode(xmlPath, "UTF-8");
-//        logger.info(xmlPath);
-
-//        xmlFile = new File(xmlPath);
-//
-//        msgMap = mock(Map.class);
-//
-//        assertNotNull(xmlPath);
-
     }
 
     @Test
     public void canLoadXmlFileProperly() throws Exception {
-//        msgLoader = MessageLoader.INSTANCE();
+
+
+        msgLoader = MessageLoader.INSTANCE();
 //        converter = new XMLMessageConverter();
 //        logger.info("XML file is {}exist.", (xmlFile.exists() ? "" : "not "));
 //        assertTrue(xmlFile.exists());
@@ -58,10 +44,9 @@ public class MessageLoaderTest {
     @Test
     public void getMessageByMessageIdSuccessfully() throws Exception {
         msgLoader = MessageLoader.INSTANCE();
-        converter = new XMLMessageConverter();
-        short mockMsgId = 0x1001;
+        String mockMsgId = "0x1001";
         Message msg = msgLoader.getMessageByMsgId(mockMsgId);
-        assertTrue(mockMsgId == msg.getId());
+        assertTrue(mockMsgId.equals(msg.getId()));
     }
 
     @Test
@@ -70,8 +55,8 @@ public class MessageLoaderTest {
         converter = new XMLMessageConverter();
         String msgName = "LoginRequest";
         Message msg = msgLoader.getMessageByName(msgName);
-        int mockMsgId = 0x1001;
-        assertTrue(mockMsgId == msg.getId());
+        String mockMsgId = "0x1001";
+        assertTrue(mockMsgId.equals(msg.getId()));
 
     }
 }

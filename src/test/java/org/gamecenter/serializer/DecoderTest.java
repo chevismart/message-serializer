@@ -12,7 +12,7 @@ import java.security.InvalidParameterException;
 import java.util.ArrayList;
 
 import static org.junit.Assert.assertNotNull;
-import static org.mockito.Matchers.anyShort;
+import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -46,7 +46,7 @@ public class DecoderTest {
         Message msg = new Message();
         msg.setName("LoginRequest");
         msg.setFields(new ArrayList<Field>());
-        when(loader.getMessageByMsgId(anyShort())).thenReturn(msg);
+        when(loader.getMessageByMsgId(anyString())).thenReturn(msg);
         byte[] equalCase = new byte[]{0x2A, 0x01, 0x10, 0x04, 0x00, 0x06, 0x02, 0x06, 0x29, 0x01, 0x10, 0x00, 0x00, 0x00, 0x00, 0x23};
         assertNotNull(decoder.decode(equalCase));
     }

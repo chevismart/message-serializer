@@ -188,7 +188,8 @@ public abstract class AbstractMessage<T> {
 
     public Object getFieldValue(String fieldName) throws Exception {
         java.lang.reflect.Field tmpField = this.getClass().getDeclaredField(fieldName);
-        if (tmpField.getGenericType().toString().equals(
+        String fieldType = tmpField.getGenericType().toString();
+        if (fieldType.equals(
                 "class java.lang.String")) { // 如果type是类类型，则前面包含"class "，后面跟类名
             // 拿到该属性的gettet方法
             /**
@@ -204,13 +205,26 @@ public abstract class AbstractMessage<T> {
                 logger.debug("Value type: {}, value is: {}", val.getClass().getSimpleName(), val);
                 return val;
             }
+        } else {
+            Method m = (Method) this.getClass().getMethod("get" + getMethodName(tmpField.getName()));
+            Object val = m.invoke(this);// 调用getter方法获取属性值
+            if (val != null) {
+                logger.debug("Value type: {}, value is: {}", val.getClass().getSimpleName(), val);
+                return val;
+            }
         }
         return null;
     }
 
     public byte[] build() {
         encoder = new Encoder();
-        return encoder.encode(this);
+        byte[] result = null;
+        try {
+            result = encoder.encode(this);
+        } catch (Exception e) {
+            logger.error("Build message error!", e.getMessage());
+        }
+        return result;
     }
 
     public void parse(byte[] bytes) throws NoSuchFieldException, IllegalAccessException, IOException {

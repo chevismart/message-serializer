@@ -12,6 +12,13 @@
                 <checkNull>true</checkNull>
                 <length>4</length>
             </field>
+            <field>
+                <name>mac</name>
+                <type>BYTES</type>
+                <mandatory>true</mandatory>
+                <checkNull>true</checkNull>
+                <length>6</length>
+            </field>
         </fields>
     </message>
     <message>

@@ -39,7 +39,7 @@ public class HeaderFilter extends Codec {
                 msgHeader.setMsgBodyLength(ByteUtil.getShort(ByteUtil.subBytes(message, startPosition, DATA_LENGTH)));
 
 
-                short msgId = ByteUtil.getShort(msgHeader.getMessageId());
+                String msgId = ByteUtil.getMessageId(msgHeader.getMessageId());
 
                 try {
                     Message msg = loader.getMessageByMsgId(msgId);

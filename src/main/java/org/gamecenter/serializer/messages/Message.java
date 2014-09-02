@@ -8,7 +8,7 @@ import java.util.List;
 public class Message {
 
     private String name;
-    private short id;
+    private String id;
     private String direction;
     private String description;
     private List<Field> fields;
@@ -51,26 +51,25 @@ public class Message {
         this.name = name;
     }
 
-    public short getId() {
-        return id;
-    }
-
-    public void setId(short id) {
-
-        this.id = id;
-    }
-
     @Override
     public String toString() {
         return "Message{" +
                 "name='" + name + '\'' +
-                ", id=" + id +
+                ", id='" + id + '\'' +
                 ", direction='" + direction + '\'' +
                 ", description='" + description + '\'' +
                 ", fields=" + fields +
                 ", minLength=" + minLength +
                 ", maxLength=" + maxLength +
                 '}';
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 
     @Override
@@ -80,12 +79,12 @@ public class Message {
 
         Message message = (Message) o;
 
-        if (id != message.id) return false;
         if (maxLength != message.maxLength) return false;
         if (minLength != message.minLength) return false;
         if (description != null ? !description.equals(message.description) : message.description != null) return false;
         if (direction != null ? !direction.equals(message.direction) : message.direction != null) return false;
         if (fields != null ? !fields.equals(message.fields) : message.fields != null) return false;
+        if (id != null ? !id.equals(message.id) : message.id != null) return false;
         if (name != null ? !name.equals(message.name) : message.name != null) return false;
 
         return true;
@@ -94,7 +93,7 @@ public class Message {
     @Override
     public int hashCode() {
         int result = name != null ? name.hashCode() : 0;
-        result = 31 * result + (int) id;
+        result = 31 * result + (id != null ? id.hashCode() : 0);
         result = 31 * result + (direction != null ? direction.hashCode() : 0);
         result = 31 * result + (description != null ? description.hashCode() : 0);
         result = 31 * result + (fields != null ? fields.hashCode() : 0);

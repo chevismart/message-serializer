@@ -53,7 +53,6 @@ public class MessageHeader {
     }
 
     public byte[] getMessageId() {
-
         return messageId;
     }
 

@@ -18,11 +18,11 @@ public class MessageLoader {
     private static MessageLoader factory;
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
     XMLMessageConverter converter;
-    private Map<Short, Message> messageMap;
+    private Map<String, Message> messageMap;
 
     public MessageLoader() {
         converter = new XMLMessageConverter();
-        messageMap = new HashMap<Short, Message>();
+        messageMap = new HashMap<String, Message>();
         Properties config = getConfig();
         List<String> msgList = Arrays.asList(((String) config.get(MessageConstants.ALL_MSG_SPEC_KEY)).split(","));
         for (String msgSpec : msgList) {
@@ -38,8 +38,8 @@ public class MessageLoader {
         return factory;
     }
 
-    private Map<Short, Message> convertToMessageMap(String msgSpec) {
-        Map<Short, Message> msgMap = new HashMap<Short, Message>();
+    private Map<String, Message> convertToMessageMap(String msgSpec) {
+        Map<String, Message> msgMap = new HashMap<String, Message>();
 
         InputStream xmlFile = loadMessageSpec(msgSpec);
 
@@ -82,7 +82,7 @@ public class MessageLoader {
         }
         InputStream is = this.getClass().getClassLoader().getResourceAsStream(msgSpecPath);
 
-        if(null == is){
+        if (null == is) {
             logger.error("XML file is not exists.");
         }
 
@@ -99,7 +99,7 @@ public class MessageLoader {
         return config;
     }
 
-    public Message getMessageByMsgId(short mockMsgId) {
+    public Message getMessageByMsgId(String mockMsgId) {
         return messageMap.get(mockMsgId);
     }
 

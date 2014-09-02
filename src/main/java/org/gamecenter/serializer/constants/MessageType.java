@@ -1,7 +1,5 @@
 package org.gamecenter.serializer.constants;
 
-import org.gamecenter.serializer.messages.downStream.PowerControlRequest;
-
 /**
  * Created by Chevis on 14-7-26.
  */

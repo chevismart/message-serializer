@@ -9,13 +9,7 @@ import org.gamecenter.serializer.messages.AbstractMessage;
 public class LoginRequest extends AbstractMessage {
 
     private byte[] centerId;
-
-    @Override
-    public String toString() {
-        return "LogonRequest{" +
-                "centerId=" + ByteArrayUtil.toHexString(centerId) +
-                '}';
-    }
+    private byte[] mac;
 
     public byte[] getCenterId() {
 
@@ -26,4 +20,19 @@ public class LoginRequest extends AbstractMessage {
         this.centerId = centerId;
     }
 
+    @Override
+    public String toString() {
+        return "LoginRequest{" +
+                "centerId=" + ByteArrayUtil.toHexString(centerId) +
+                ", mac=" + ByteArrayUtil.toHexString(mac) +
+                '}';
+    }
+
+    public byte[] getMac() {
+        return mac;
+    }
+
+    public void setMac(byte[] mac) {
+        this.mac = mac;
+    }
 }
