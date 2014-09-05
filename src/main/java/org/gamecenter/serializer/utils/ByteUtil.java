@@ -78,6 +78,7 @@ public class ByteUtil {
     }
 
     public static byte[] getByte(byte[] data) {
+        // TODO: convert the big head to small head for display.
         return data;
     }
 

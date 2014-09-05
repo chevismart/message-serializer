@@ -59,7 +59,7 @@ public class MessageLoader {
                 }
                 msg.setMinLength(minConunter);
                 msg.setMaxLength(maxConunter);
-                msgMap.put(msg.getId(), msg);
+                msgMap.put(msg.getId().toLowerCase(), msg);
             }
 
             logger.info("Message Spec XML({}) is converted.", msgSpec);
@@ -105,7 +105,7 @@ public class MessageLoader {
 
     public Message getMessageByName(String msgName) {
         for (Message msg : messageMap.values()) {
-            if (msg.getName().toLowerCase().equals(msgName.toLowerCase())) {
+            if (msg.getName().equalsIgnoreCase(msgName)) {
                 return msg;
             }
         }

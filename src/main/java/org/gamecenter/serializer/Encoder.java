@@ -10,6 +10,8 @@ import org.gamecenter.serializer.utils.ByteUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.io.IOException;
+import java.io.OutputStream;
 import java.util.List;
 
 /**
@@ -41,6 +43,7 @@ public class Encoder extends Codec {
 
         byteMsg = assembleByteArray(byteMsg, ByteUtil.getMessageId(msg.getId()));
 
+        // TODO: Following should get the actual length of the message body but not get the max length.
         byteMsg = assembleByteArray(byteMsg, ByteUtil.getBytes((short) msg.getMaxLength()));
 
         for (Field field : msg.getFields()) {
@@ -60,18 +63,21 @@ public class Encoder extends Codec {
 
     private byte[] getBytes(Field field, AbstractMessage message) throws Exception {
 // TODO: to verify each type of the field value conversion.
-        if (field.getType().toLowerCase().equals(String.class.getSimpleName().toLowerCase())) {
+        byte[] blankField = new byte[field.getLength()];
+        if (field.getType().equalsIgnoreCase(String.class.getSimpleName())) {
             return ByteUtil.getBytes((String) message.getFieldValue(field.getName()));
-        } else if (field.getType().toLowerCase().equals(Byte.class.getSimpleName().toLowerCase() + "s")) {
+        } else if (field.getType().equalsIgnoreCase(Byte.class.getSimpleName() + "s")) {
             return (byte[]) message.getFieldValue(field.getName());
+        } else if (field.getType().equalsIgnoreCase(Byte.class.getSimpleName())) {
+            return new byte[]{(Byte)message.getFieldValue(field.getName())};// message.getFieldValue(field.getName());
         } else {
-            byte[] emptyField = new byte[field.getLength()];
             for (int i = 0; i < field.getLength(); i++) {
-                emptyField[i] = 0;
+                blankField[i] = 0;
             }
         }
 
-        return new byte[0];
+        return blankField;
+
     }
 
     private byte[] assembleByteArray(byte[] sourceByteArray, byte byteVar) {

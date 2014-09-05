@@ -140,13 +140,6 @@ public abstract class AbstractMessage<T> {
     }
 
     @Override
-    public String toString() {
-        return "AbstractMessage{" +
-                "header=" + header +
-                '}';
-    }
-
-    @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
@@ -157,6 +150,13 @@ public abstract class AbstractMessage<T> {
         if (logger != null ? !logger.equals(that.logger) : that.logger != null) return false;
 
         return true;
+    }
+
+    @Override
+    public String toString() {
+        return "AbstractMessage{" +
+                "header=" + header +
+                '}';
     }
 
     @Override

@@ -35,7 +35,7 @@ public class Decoder extends Codec {
 
             String msgId = "0x" + ByteArrayUtil.toHexString(ByteUtil.getMsgId(header.getMessageId()));
 
-            Message message = loader.getMessageByMsgId(msgId);
+            Message message = loader.getMessageByMsgId(msgId.toLowerCase());
 
             String displayMsgId = ByteArrayUtil.toHexString(ByteUtil.getMsgId(header.getMessageId()));
             logger.info("Message(id={}) = {}", displayMsgId, message);
@@ -65,7 +65,7 @@ public class Decoder extends Codec {
                     fieldVal = new Field<Integer>(field);
                     fieldVal.setValue(ByteUtil.getShort(fieldBytes));
 
-                } else if (isFieldType(FieldType.DWOARD, field)) {
+                } else if (isFieldType(FieldType.DWORD, field)) {
                     fieldVal = new Field<Long>(field);
                     fieldVal.setValue(ByteUtil.getInteger(fieldBytes));
                 }
@@ -93,7 +93,7 @@ public class Decoder extends Codec {
     }
 
     private boolean isFieldType(FieldType fieldType, Field field) {
-        return fieldType.toString().toLowerCase().equals(field.getType().toLowerCase());
+        return fieldType.toString().equalsIgnoreCase(field.getType());
     }
 
     private boolean checkMandatory(Field field) {

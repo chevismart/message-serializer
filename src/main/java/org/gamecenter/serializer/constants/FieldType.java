@@ -7,7 +7,7 @@ public enum FieldType {
 
     BYTE("BYTE"),
     WORD("WORD"),
-    DWOARD("DWORD"),
+    DWORD("DWORD"),
     STRING("STRING"),
     BYTES("BYTES");
 

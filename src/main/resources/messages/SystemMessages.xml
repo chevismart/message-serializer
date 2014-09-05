@@ -1,8 +1,8 @@
 <messages>
     <message>
         <name>LoginRequest</name>
-        <id>0x1001</id>
-        <description>DESC</description>
+        <id>0x110A</id>
+        <description>LoginRequest DESC</description>
         <direction>UP</direction>
         <fields>
             <field>
@@ -23,9 +23,59 @@
     </message>
     <message>
         <name>LoginResponse</name>
-        <id>0x1101</id>
-        <description>DESC</description>
+        <id>0x100C</id>
+        <description>LoginResponse DESC</description>
         <direction>DOWN</direction>
         <fields/>
+    </message>
+    <message>
+        <name>HeartbeatRequest</name>
+        <id>0x110B</id>
+        <description>HeartbeatRequest DESC</description>
+        <direction>UP</direction>
+        <fields/>
+    </message>
+    <message>
+        <name>HeartbeatResponse</name>
+        <id>0x100D</id>
+        <description>HeartbeatResponse DESC</description>
+        <direction>DOWN</direction>
+        <fields/>
+    </message>
+    <message>
+        <name>ConnectionRequest</name>
+        <id>0x100B</id>
+        <description>ConnectionRequest DESC</description>
+        <direction>DOWN</direction>
+        <fields/>
+    </message>
+    <message>
+        <name>ConnectionResponse</name>
+        <id>0x1109</id>
+        <description>ConnectionResponse DESC</description>
+        <direction>UP</direction>
+        <fields>
+            <field>
+                <name>wifiSignal</name>
+                <type>BYTE</type>
+                <mandatory>true</mandatory>
+                <checkNull>true</checkNull>
+                <length>1</length>
+            </field>
+            <field>
+                <name>ipAdd</name>
+                <type>BYTES</type>
+                <mandatory>true</mandatory>
+                <checkNull>true</checkNull>
+                <length>4</length>
+            </field>
+            <field>
+                <name>mac</name>
+                <type>BYTES</type>
+                <mandatory>true</mandatory>
+                <checkNull>true</checkNull>
+                <length>6</length>
+            </field>
+        </fields>
     </message>
 </messages>

@@ -2,6 +2,7 @@ package org.gamecenter.serializer.messages.upStream;
 
 import ch.qos.logback.core.encoder.ByteArrayUtil;
 import org.gamecenter.serializer.messages.AbstractMessage;
+import org.gamecenter.serializer.utils.ByteUtil;
 
 /**
  * Created by Boss on 2014/7/23.

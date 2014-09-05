@@ -1,6 +1,8 @@
 package org.gamecenter.serializer.messages;
 
+import ch.qos.logback.core.encoder.ByteArrayUtil;
 import org.gamecenter.serializer.constants.MessageType;
+import org.gamecenter.serializer.utils.ByteUtil;
 
 import java.util.Arrays;
 
@@ -18,9 +20,9 @@ public class MessageHeader {
     @Override
     public String toString() {
         return "MessageHeader{" +
-                "messageSN=" + Arrays.toString(messageSN) +
-                ", deviceId=" + Arrays.toString(deviceId) +
-                ", messageId=" + Arrays.toString(messageId) +
+                "messageSN=" + ByteArrayUtil.toHexString(messageSN) +
+                ", deviceId=" + ByteArrayUtil.toHexString(deviceId) +
+                ", messageId=" + ByteUtil.getMessageId(messageId) +
                 ", msgType=" + msgType +
                 ", msgBodyLength=" + msgBodyLength +
                 '}';
@@ -78,7 +80,7 @@ public class MessageHeader {
     }
 
     public byte[] getMessageSN() {
-        return messageSN;
+        return ByteUtil.getByte(messageSN);
     }
 
     public void setMessageSN(byte[] messageSN) {
@@ -86,7 +88,7 @@ public class MessageHeader {
     }
 
     public byte[] getDeviceId() {
-        return deviceId;
+        return ByteUtil.getByte(deviceId);
     }
 
     public void setDeviceId(byte[] deviceId) {

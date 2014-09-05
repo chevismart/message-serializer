@@ -1,6 +1,7 @@
 package org.gamecenter.serializer.messages;
 
 
+import org.gamecenter.serializer.utils.ByteUtil;
 import org.gamecenter.serializer.utils.XMLMessageConverter;
 import org.junit.Before;
 import org.junit.Test;
@@ -44,9 +45,9 @@ public class MessageLoaderTest {
     @Test
     public void getMessageByMessageIdSuccessfully() throws Exception {
         msgLoader = MessageLoader.INSTANCE();
-        String mockMsgId = "0x1001";
+        String mockMsgId = "0x110a";
         Message msg = msgLoader.getMessageByMsgId(mockMsgId);
-        assertTrue(mockMsgId.equals(msg.getId()));
+        assertTrue(mockMsgId.equalsIgnoreCase(msg.getId()));
     }
 
     @Test
@@ -55,8 +56,8 @@ public class MessageLoaderTest {
         converter = new XMLMessageConverter();
         String msgName = "LoginRequest";
         Message msg = msgLoader.getMessageByName(msgName);
-        String mockMsgId = "0x1001";
-        assertTrue(mockMsgId.equals(msg.getId()));
+        String mockMsgId = "0x110A";
+        assertTrue(mockMsgId.equalsIgnoreCase(msg.getId()));
 
     }
 }
