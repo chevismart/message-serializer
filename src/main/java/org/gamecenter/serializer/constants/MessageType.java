@@ -7,6 +7,7 @@ import org.gamecenter.serializer.messages.upStream.HeartbeatRequest;
  */
 public enum MessageType {
     LoginRequest("LoginRequest"),
+    LoginResponse("LoginResponse"),
     PowerControlRequest("PowerControlRequest"),
     HeartbeatRequest("HeartbeatRequest"),
     HeartbeatResponse("HeartbeatResponse"),
