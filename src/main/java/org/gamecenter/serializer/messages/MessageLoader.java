@@ -2,6 +2,7 @@ package org.gamecenter.serializer.messages;
 
 import org.apache.commons.lang3.StringUtils;
 import org.gamecenter.serializer.constants.MessageConstants;
+import org.gamecenter.serializer.utils.ByteUtil;
 import org.gamecenter.serializer.utils.XMLMessageConverter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -100,7 +101,7 @@ public class MessageLoader {
     }
 
     public Message getMessageByMsgId(String mockMsgId) {
-        return messageMap.get(mockMsgId);
+        return messageMap.get(mockMsgId.toLowerCase());
     }
 
     public Message getMessageByName(String msgName) {

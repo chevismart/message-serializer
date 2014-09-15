@@ -118,7 +118,7 @@ public class ByteUtil {
 
     public static String getMessageId(byte[] bytes) {
 
-        return HEX_PERFIX + ByteArrayUtil.toHexString(new byte[]{bytes[1], bytes[0]});
+        return HEX_PERFIX + ByteArrayUtil.toHexString(isBigEndian? new byte[]{bytes[0], bytes[1]}:  new byte[]{bytes[1], bytes[0]});
     }
 
     public static int getInteger(byte[] bytes) {

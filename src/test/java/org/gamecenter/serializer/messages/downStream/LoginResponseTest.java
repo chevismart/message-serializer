@@ -1,14 +1,12 @@
 package org.gamecenter.serializer.messages.downStream;
 
 import ch.qos.logback.core.encoder.ByteArrayUtil;
-import com.sun.deploy.util.ArrayUtil;
 import org.apache.commons.lang3.ArrayUtils;
 import org.gamecenter.serializer.messages.MessageHeader;
 import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
