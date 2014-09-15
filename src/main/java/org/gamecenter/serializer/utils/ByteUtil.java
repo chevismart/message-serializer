@@ -12,6 +12,8 @@ import java.nio.charset.Charset;
  */
 public class ByteUtil {
 
+    private static boolean isBigEndian = true;
+
     private static Logger logger = LoggerFactory.getLogger(ByteUtil.class);
     private static String HEX_PERFIX = "0x";
 
@@ -24,8 +26,13 @@ public class ByteUtil {
 
     public static byte[] getBytes(short data) {
         byte[] bytes = new byte[2];
-        bytes[0] = (byte) (data & 0xff);
-        bytes[1] = (byte) ((data & 0xff00) >> 8);
+        if (isBigEndian) {
+            bytes[0] = (byte) ((data & 0xff00) >> 8);
+            bytes[1] = (byte) (data & 0xff);
+        } else {
+            bytes[0] = (byte) (data & 0xff);
+            bytes[1] = (byte) ((data & 0xff00) >> 8);
+        }
         return bytes;
     }
 
@@ -84,7 +91,7 @@ public class ByteUtil {
 
 
     public static short getShort(byte[] bytes) {
-        return (short) ((0xff & bytes[0]) | (0xff00 & (bytes[1] << 8)));
+        return isBigEndian ? (short) ((0xff & bytes[1]) | (0xff00 & (bytes[0] << 8))) : (short) ((0xff & bytes[0]) | (0xff00 & (bytes[1] << 8)));
     }
 
     public static char getChar(byte[] bytes) {
@@ -92,7 +99,7 @@ public class ByteUtil {
     }
 
     public static byte[] getMsgId(byte[] bytes) {
-        return new byte[]{bytes[1], bytes[0]};
+        return isBigEndian ? bytes : new byte[]{bytes[1], bytes[0]};
     }
 
     public static byte[] getMessageId(String msgId) {
