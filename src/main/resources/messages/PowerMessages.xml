@@ -1,12 +1,34 @@
 <messages>
     <message>
+        <name>PowerStatusRequest</name>
+        <id>0x1007</id>
+        <description>PowerStatusRequest DESC</description>
+        <direction>DOWN</direction>
+        <fields/>
+    </message>
+    <message>
         <name>PowerControlRequest</name>
         <id>0x1006</id>
-        <description>DESC</description>
+        <description>PowerControlRequest DESC</description>
         <direction>DOWN</direction>
         <fields>
             <field>
                 <name>switcher</name>
+                <type>STRING</type>
+                <mandatory>true</mandatory>
+                <checkNull>true</checkNull>
+                <length>1</length>
+            </field>
+        </fields>
+    </message>
+    <message>
+        <name>PowerStatusResponse</name>
+        <id>0x1105</id>
+        <description>PowerStatusResp DESC</description>
+        <direction>UP</direction>
+        <fields>
+            <field>
+                <name>status</name>
                 <type>STRING</type>
                 <mandatory>true</mandatory>
                 <checkNull>true</checkNull>

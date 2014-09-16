@@ -2,7 +2,6 @@ package org.gamecenter.serializer.messages;
 
 import org.apache.commons.lang3.StringUtils;
 import org.gamecenter.serializer.constants.MessageConstants;
-import org.gamecenter.serializer.utils.ByteUtil;
 import org.gamecenter.serializer.utils.XMLMessageConverter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -61,6 +60,7 @@ public class MessageLoader {
                 msg.setMinLength(minConunter);
                 msg.setMaxLength(maxConunter);
                 msgMap.put(msg.getId().toLowerCase(), msg);
+                logger.info("Message({}) is loaded.", msg.getDescription());
             }
 
             logger.info("Message Spec XML({}) is converted.", msgSpec);

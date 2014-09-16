@@ -49,7 +49,7 @@ public class HeaderFilter extends Codec {
 //                }
 //                if (null != msg && null != MessageType.valueOf(msg.getName())) {
 //                } else {
-                    logger.error("No message definition found for messageId = {}.", msgHeader.getMessageId());
+                    logger.error("No message definition found for messageId = {}.", ByteUtil.getMessageId(msgHeader.getMessageId()));
                 }
 
             } else {

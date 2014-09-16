@@ -10,8 +10,6 @@ import org.gamecenter.serializer.utils.ByteUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.IOException;
-import java.io.OutputStream;
 import java.util.List;
 
 /**
@@ -69,7 +67,9 @@ public class Encoder extends Codec {
         } else if (field.getType().equalsIgnoreCase(Byte.class.getSimpleName() + "s")) {
             return (byte[]) message.getFieldValue(field.getName());
         } else if (field.getType().equalsIgnoreCase(Byte.class.getSimpleName())) {
-            return new byte[]{(Byte)message.getFieldValue(field.getName())};// message.getFieldValue(field.getName());
+            return new byte[]{(Byte) message.getFieldValue(field.getName())};// message.getFieldValue(field.getName());
+        } else if (field.getType().equalsIgnoreCase("WORD")) {
+            return ByteUtil.getBytes(Short.parseShort(String.valueOf(message.getFieldValue(field.getName()))));
         } else {
             for (int i = 0; i < field.getLength(); i++) {
                 blankField[i] = 0;

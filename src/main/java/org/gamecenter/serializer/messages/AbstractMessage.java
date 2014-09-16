@@ -3,6 +3,7 @@ package org.gamecenter.serializer.messages;
 import org.gamecenter.serializer.Decoder;
 import org.gamecenter.serializer.Encoder;
 import org.gamecenter.serializer.HeaderFilter;
+import org.gamecenter.serializer.constants.MessageConstants;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -230,5 +231,13 @@ public abstract class AbstractMessage<T> {
     public void parse(byte[] bytes) throws NoSuchFieldException, IllegalAccessException, IOException {
         buildMessage(bytes);
         logger.debug("The {} is instanced! {}", this.getClass().getName(), toString());
+    }
+
+    protected String isEnabled(boolean isEnabled) {
+        return isEnabled ? MessageConstants.ENABLED : MessageConstants.DISABLED;
+    }
+
+    protected boolean isSuccess(String result) {
+        return result.equalsIgnoreCase(MessageConstants.ENABLED);
     }
 }

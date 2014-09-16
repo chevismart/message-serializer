@@ -10,4 +10,9 @@ public class MessageConstants {
     public static final String CONFIG_FILE_NAME = "config.properties";
     public static final String ALL_MSG_SPEC_KEY = "messages_spec";
 
+
+    public static final String ENABLED = "Y";
+    public static final String DISABLED = "N";
+
+
 }
